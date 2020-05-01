@@ -1,0 +1,19 @@
+{
+  "Zone": "dyn-zone.example.com",
+  "Server": "ns.example.com",
+  "TsigName": "my.tsig.name.example.com.",
+  "TsigSecret": "Base64encodedsecret==",
+  "TsigAlgorithm": "hmac-sha512.",
+  "Hosts": [
+    {
+      "Hostname": "host1",
+      "User": "user1",
+      "Password": "password1"
+    },
+    {
+      "Hostname": "host2",
+      "User": "user2",
+      "Password": "password2"
+    }
+  ]
+}
