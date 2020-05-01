@@ -27,7 +27,6 @@ Or run the docker image while passing the config file as volume
 # docker run -v $(pwd)/dnsupd.json:/etc/dnsupd.json xway/dnsupd:latest
 ```
 
-
 ## Configuration
 
 dnsupd reads its configuration from the config file at `/etc/dnsupd.json` (default location, can be changed with the `-f` flag).
