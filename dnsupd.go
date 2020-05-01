@@ -13,6 +13,7 @@ import (
 	"github.com/miekg/dns"
 )
 
+// Config contains the configuration for the daemon
 type Config struct {
 	Port          string
 	IPHeader      string
@@ -24,6 +25,7 @@ type Config struct {
 	Hosts         []HostConfig
 }
 
+// HostConfig contains the hostname and useraccount credentials
 type HostConfig struct {
 	Hostname string
 	User     string
