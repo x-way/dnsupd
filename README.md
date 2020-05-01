@@ -1,4 +1,4 @@
-# dnsupd - Dyn-DNS update daemon
+# dnsupd - DynDNS update daemon
 [![CircleCI](https://circleci.com/gh/x-way/dnsupd.svg?style=svg)](https://circleci.com/gh/x-way/dnsupd)
 [![Go Report Card](https://goreportcard.com/badge/github.com/x-way/dnsupd)](https://goreportcard.com/report/github.com/x-way/dnsupd)
 
