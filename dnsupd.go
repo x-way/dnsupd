@@ -52,7 +52,7 @@ func validAuth(hostname, user, password string) bool {
 	return false
 }
 
-func getParameters(r *http.Request) (hostname string, myipstr string, rrtype string, ok bool) {
+func getParameters(r *http.Request) (hostname, myipstr, rrtype string, ok bool) {
 	params := r.URL.Query()
 
 	hostname = params.Get("hostname")
