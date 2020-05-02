@@ -52,36 +52,45 @@ func validAuth(hostname, user, password string) bool {
 	return false
 }
 
+func getParameters(r *http.Request) (hostname string, myipstr string, rrtype string, ok bool) {
+	params := r.URL.Query()
+
+	hostname = params.Get("hostname")
+
+	myipstr = params.Get("myip")
+	if myipstr == "" && config.IPHeader != "" {
+		myipstr = r.Header.Get(config.IPHeader)
+	}
+	if myipstr == "" {
+		return
+	}
+	myip := net.ParseIP(myipstr)
+	if myip == nil {
+		return
+	}
+	rrtype = "AAAA"
+	if myip.To4() != nil {
+		rrtype = "A"
+	}
+
+	ok = true
+	return
+}
+
 func handler(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/" {
 		fmt.Fprint(w, "911\n")
 		return
 	}
 
-	params := r.URL.Query()
-
-	hostname := params.Get("hostname")
+	hostname, myip, rrtype, ok := getParameters(r)
+	if !ok {
+		fmt.Fprint(w, "911\n")
+		return
+	}
 	if !validHostname(hostname) {
 		fmt.Fprint(w, "nohost\n")
 		return
-	}
-
-	myipstr := params.Get("myip")
-	if myipstr == "" && config.IPHeader != "" {
-		myipstr = r.Header.Get(config.IPHeader)
-	}
-	if myipstr == "" {
-		fmt.Fprint(w, "911\n")
-		return
-	}
-	myip := net.ParseIP(myipstr)
-	if myip == nil {
-		fmt.Fprint(w, "911\n")
-		return
-	}
-	rrtype := "AAAA"
-	if myip.To4() != nil {
-		rrtype = "A"
 	}
 
 	user, password, ok := r.BasicAuth()
@@ -90,12 +99,12 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if !sendDNSUpdate(hostname, rrtype, myipstr) {
+	if !sendDNSUpdate(hostname, rrtype, myip) {
 		fmt.Fprint(w, "dnserr\n")
 		return
 	}
 
-	fmt.Fprintf(w, "good %s\n", myipstr)
+	fmt.Fprintf(w, "good %s\n", myip)
 }
 
 func sendDNSUpdate(hostname, rrtype, ip string) bool {
