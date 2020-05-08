@@ -78,11 +78,6 @@ func getParameters(r *http.Request) (hostname, myipstr, rrtype string, ok bool) 
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
-	if r.URL.Path != "/" {
-		fmt.Fprint(w, "911\n")
-		return
-	}
-
 	hostname, myip, rrtype, ok := getParameters(r)
 	if !ok {
 		fmt.Fprint(w, "911\n")
