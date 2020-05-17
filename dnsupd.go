@@ -15,7 +15,7 @@ import (
 
 // Config contains the configuration for the daemon
 type Config struct {
-	Port          string
+	Port          int16
 	IPHeader      string
 	Zone          string
 	Server        string
@@ -144,8 +144,8 @@ func main() {
 	loadConfig(*configfile)
 
 	port := ":80"
-	if config.Port != "" {
-		port = ":" + config.Port
+	if config.Port != 0 {
+		port = fmt.Sprintf(":%d", config.Port)
 	}
 	http.HandleFunc("/", handler)
 	log.Fatal(http.ListenAndServe(port, nil))
