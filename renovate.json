@@ -38,6 +38,18 @@
       "reviewers": [],
       "assignees": [],
       "automerge": true
+    },
+    {
+      "packageNames": [
+        "github.com/miekg/dns"
+      ],
+      "updateTypes": [
+        "digest",
+        "patch"
+      ],
+      "reviewers": [],
+      "assignees": [],
+      "automerge": true
     }
   ]
 }
