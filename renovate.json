@@ -16,30 +16,6 @@
   ],
   "packageRules": [
     {
-      "updateTypes": [
-        "digest",
-        "patch"
-      ],
-      "packagePatterns": [
-        "^golang.org/x/"
-      ],
-      "schedule": [
-        "after 6pm"
-      ]
-    },
-    {
-      "packageNames": [
-        "golang.org/x/sys"
-      ],
-      "updateTypes": [
-        "digest",
-        "patch"
-      ],
-      "reviewers": [],
-      "assignees": [],
-      "automerge": true
-    },
-    {
       "packageNames": [
         "github.com/miekg/dns"
       ],
