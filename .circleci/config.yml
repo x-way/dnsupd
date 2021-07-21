@@ -55,6 +55,7 @@ jobs:
 
     steps:
       - checkout
+      - setup_remote_docker
       - run:
           name: Build and publish docker image
           command: |
