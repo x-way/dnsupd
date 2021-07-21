@@ -54,6 +54,7 @@ jobs:
       - image: circleci/golang:1.16
 
     steps:
+      - checkout
       - run:
           name: Build and publish docker image
           command: |
