@@ -61,4 +61,4 @@ jobs:
           command: |
                     docker build -t xway/dnsupd:latest .
                     echo $DOCKER_ACCESS_TOKEN | docker login -u $DOCKER_USERNAME --password-stdin
-                    docker publish xway/dnsupd:latest
+                    docker push xway/dnsupd:latest
