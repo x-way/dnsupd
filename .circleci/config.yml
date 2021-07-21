@@ -4,6 +4,13 @@ workflows:
   build:
     jobs:
       - build
+      - publish:
+          context:
+            - docker-credentials
+          filters:
+            branches:
+              only:
+                - master
   scheduled:
     triggers:
       - schedule:
@@ -42,3 +49,14 @@ jobs:
                     go install mvdan.cc/gofumpt@latest
                     gofumpt -d .
                     [ -z "$(gofumpt -l .)" ]
+  publish:
+    docker:
+      - image: circleci/golang:1.16
+
+    steps:
+      - run:
+          name: Build and publish docker image
+          command: |
+                    docker build -t xway/dnsupd:latest .
+                    echo $DOCKER_ACCESS_TOKEN | docker login -u $DOCKER_USERNAME --password-stdin
+                    docker publish xway/dnsupd:latest
