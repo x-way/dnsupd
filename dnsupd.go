@@ -4,10 +4,10 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
-	"io/ioutil"
 	"log"
 	"net"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/miekg/dns"
@@ -127,7 +127,7 @@ func sendDNSUpdate(hostname, rrtype, ip string) bool {
 }
 
 func loadConfig(configfile string) {
-	data, err := ioutil.ReadFile(configfile)
+	data, err := os.ReadFile(configfile)
 	if err != nil {
 		log.Fatal(err)
 	}
