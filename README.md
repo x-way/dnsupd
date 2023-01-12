@@ -10,7 +10,7 @@ The DNS zone, server and TSIG credentials as well as the useraccounts and hostna
 ## Installation
 Either install the go package
 ```
-# go get -u github.com/x-way/dnsupd
+# go install github.com/x-way/dnsupd@latest
 ```
 Or alternatively install the docker image
 ```
