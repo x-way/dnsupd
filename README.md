@@ -14,7 +14,7 @@ Either install the go package
 ```
 Or alternatively install the docker image
 ```
-# docker pull xway/dnsupd:latest
+# docker pull docker.x-way.org/xway/dnsupd:latest
 ```
 
 ## Usage
@@ -24,7 +24,7 @@ Run the go binary from your local path
 ```
 Or run the docker image while passing the config file as volume
 ```
-# docker run -v $(pwd)/dnsupd.json:/etc/dnsupd.json xway/dnsupd:latest
+# docker run -v $(pwd)/dnsupd.json:/etc/dnsupd.json docker.x-way.org/xway/dnsupd:latest
 ```
 
 ## Configuration
