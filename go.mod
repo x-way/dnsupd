@@ -2,7 +2,7 @@ module github.com/x-way/dnsupd
 
 go 1.19
 
-require github.com/miekg/dns v1.1.53
+require github.com/miekg/dns v1.1.54
 
 require (
 	golang.org/x/mod v0.7.0 // indirect
