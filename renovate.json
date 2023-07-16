@@ -16,9 +16,6 @@
   ],
   "packageRules": [
     {
-      "packageNames": [
-        "github.com/miekg/dns"
-      ],
       "updateTypes": [
         "digest",
         "patch"

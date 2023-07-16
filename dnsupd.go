@@ -10,7 +10,12 @@ import (
 	"os"
 	"time"
 
+	"github.com/bugsnag/bugsnag-go/v2"
+
 	"github.com/miekg/dns"
+
+	// import CA certs
+	_ "golang.org/x/crypto/x509roots/fallback"
 )
 
 // Config contains the configuration for the daemon
@@ -137,9 +142,39 @@ func loadConfig(configfile string) {
 	}
 }
 
+type nullLogger struct{}
+
+func (*nullLogger) Printf(_ string, _ ...interface{}) {}
+
 func main() {
 	configfile := flag.String("f", "/etc/dnsupd.json", "path of the config file to use")
 	flag.Parse()
+
+	bugsnag.Configure(bugsnag.Configuration{Logger: &nullLogger{}})
+	if key, ok := os.LookupEnv("BUGSNAG_API_KEY"); ok {
+		bugsnag.Configure(bugsnag.Configuration{
+			APIKey:          key,
+			ReleaseStage:    "production",
+			ProjectPackages: []string{"main", "github.com/x-way/dnsupd"},
+			AppVersion:      os.Getenv("GIT_COMMIT"),
+			Logger:          log.Default(), // restore regular Logger
+		})
+		bugsnag.OnBeforeNotify(
+			func(event *bugsnag.Event, _ *bugsnag.Configuration) error {
+				// Change event.User.Id to x-real-ip header and event.User.Name to basicauth user if available
+				for _, datum := range event.RawData {
+					if req, ok := datum.(*http.Request); ok {
+						ip := req.RemoteAddr
+						if config.IPHeader != "" {
+							ip = req.Header.Get(config.IPHeader)
+						}
+						name, _, _ := req.BasicAuth()
+						event.User = &bugsnag.User{Id: ip, Name: name}
+					}
+				}
+				return nil
+			})
+	}
 
 	loadConfig(*configfile)
 
@@ -148,5 +183,5 @@ func main() {
 		port = fmt.Sprintf(":%d", config.Port)
 	}
 	http.HandleFunc("/", handler)
-	log.Fatal(http.ListenAndServe(port, nil))
+	log.Fatal(http.ListenAndServe(port, bugsnag.Handler(nil)))
 }
