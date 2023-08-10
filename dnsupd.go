@@ -99,18 +99,19 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if !sendDNSUpdate(hostname, rrtype, myip) {
+	if err := sendDNSUpdate(hostname, rrtype, myip); err != nil {
 		fmt.Fprint(w, "dnserr\n")
+		bugsnag.Notify(err, r, bugsnag.MetaData{"dnserr": {"hostname": hostname, "myip": myip, "rrtype": rrtype, "user": user}})
 		return
 	}
 
 	fmt.Fprintf(w, "good %s\n", myip)
 }
 
-func sendDNSUpdate(hostname, rrtype, ip string) bool {
+func sendDNSUpdate(hostname, rrtype, ip string) error {
 	rr, err := dns.NewRR(fmt.Sprintf("%s. 30 %s %s", hostname, rrtype, ip))
 	if err != nil {
-		return false
+		return err
 	}
 
 	msg := new(dns.Msg)
@@ -124,11 +125,14 @@ func sendDNSUpdate(hostname, rrtype, ip string) bool {
 	client.TsigSecret = map[string]string{config.TsigName: config.TsigSecret}
 
 	reply, _, err := client.Exchange(msg, config.Server+":53")
-	if err != nil || reply.Rcode != dns.RcodeSuccess {
-		return false
+	if err != nil {
+		return err
+	}
+	if reply.Rcode != dns.RcodeSuccess {
+		return fmt.Errorf("reply.Rcode != RcodeSuccess: %v", reply.Rcode)
 	}
 
-	return true
+	return nil
 }
 
 func loadConfig(configfile string) {
