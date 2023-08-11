@@ -24,6 +24,7 @@ type Config struct {
 	IPHeader      string
 	Zone          string
 	Server        string
+	Net           string
 	TsigName      string
 	TsigSecret    string
 	TsigAlgorithm string
@@ -123,6 +124,7 @@ func sendDNSUpdate(hostname, rrtype, ip string) error {
 
 	client := new(dns.Client)
 	client.TsigSecret = map[string]string{config.TsigName: config.TsigSecret}
+	client.Net = config.Net
 
 	reply, _, err := client.Exchange(msg, config.Server+":53")
 	if err != nil {
