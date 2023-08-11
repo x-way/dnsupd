@@ -59,6 +59,6 @@ jobs:
       - run:
           name: Build and publish docker image
           command: |
-                    docker build -t docker.x-way.org/xway/dnsupd:latest .
+                    docker build --build-arg GIT_COMMIT=$CIRCLE_SHA1 -t docker.x-way.org/xway/dnsupd:latest .
                     echo $DOCKER_ACCESS_TOKEN | docker login -u $DOCKER_USERNAME --password-stdin docker.x-way.org
                     docker push docker.x-way.org/xway/dnsupd:latest
