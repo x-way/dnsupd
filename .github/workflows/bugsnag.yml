@@ -16,4 +16,4 @@ jobs:
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
       -
         name: Upload release information
-        run: /home/runner/.local/bugsnag/bin/bugsnag-cli create-build --api-key=${{ secrets.BUGSNAG_API_KEY }} --app-version=${{ github.sha }} --release-stage=production
+        run: /home/runner/.local/bugsnag/bin/bugsnag-cli create-build --api-key=${{ secrets.BUGSNAG_API_KEY }} --version-name=${{ github.sha }} --release-stage=production
