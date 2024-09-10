@@ -16,6 +16,18 @@
   ],
   "packageRules": [
     {
+      "packageNames": [
+        "golang.org/x/crypto/x509roots/fallback"
+      ],
+      "updateTypes": [
+        "patch",
+        "digest"
+      ],
+      "reviewers": [],
+      "assignees": [],
+      "automerge": true
+    },
+    {
       "updateTypes": [
         "digest",
         "patch"
