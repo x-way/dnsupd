@@ -49,6 +49,11 @@ jobs:
                     go install github.com/securego/gosec/v2/cmd/gosec@latest
                     gosec -exclude=G304,G114 ./...
       - run:
+          name: govulncheck
+          command: |
+                    go install golang.org/x/vuln/cmd/govulncheck@latest
+                    govulncheck ./...
+      - run:
           name: Check gofumpt formatting
           command: |
                     go install mvdan.cc/gofumpt@latest
