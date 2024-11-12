@@ -102,7 +102,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 
 	if err := sendDNSUpdate(hostname, rrtype, myip); err != nil {
 		fmt.Fprint(w, "dnserr\n")
-		bugsnag.Notify(err, r, bugsnag.MetaData{"dnserr": {"hostname": hostname, "myip": myip, "rrtype": rrtype, "user": user}})
+		_ = bugsnag.Notify(err, r, bugsnag.MetaData{"dnserr": {"hostname": hostname, "myip": myip, "rrtype": rrtype, "user": user}})
 		return
 	}
 
