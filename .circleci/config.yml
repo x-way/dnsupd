@@ -44,6 +44,11 @@ jobs:
                     go install honnef.co/go/tools/cmd/staticcheck@latest
                     staticcheck -checks all ./...
       - run:
+          name: gosec
+          command: |
+                    go install github.com/securego/gosec/v2/cmd/gosec@latest
+                    gosec -exclude=G304,G114 ./...
+      - run:
           name: Check gofumpt formatting
           command: |
                     go install mvdan.cc/gofumpt@latest
