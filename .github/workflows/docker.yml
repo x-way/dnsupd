@@ -1,0 +1,37 @@
+name: Deploy
+
+on: push
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
+    steps:
+      -
+        name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+      -
+        name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      -
+        name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      -
+        name: Build and push dnsupd
+        uses: docker/build-push-action@v6
+        with:
+          file: Dockerfile
+          tags: |
+            ghcr.io/x-way/dnsupd:latest
+          push: ${{ github.ref == 'refs/heads/main' }}
+          build-args: GIT_COMMIT=${{ github.sha }}
+      -
+        name: Notify webhook
+        run: |
+          curl -s -D - -H 'User-Agent: custom-github-deploy-webhook/0.01 (${{ github.sha }})' -X POST https://x-way.org/xh/dnsupd-reload
