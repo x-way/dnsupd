@@ -2,7 +2,7 @@ FROM golang:1.24.1-alpine AS builder
 RUN apk update && apk add --no-cache git
 WORKDIR $GOPATH/src/dnsupd/
 COPY . .
-RUN go get -d -v
+RUN go get -v
 RUN CGO_ENABLED=0 go build -a -ldflags '-extldflags "-static"' -o /go/bin/dnsupd
 
 RUN go install github.com/bugsnag/panic-monitor@latest

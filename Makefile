@@ -19,7 +19,7 @@ gofumpt:
 	test -z "$$(gofumpt -d -e . | tee /dev/stderr)"
 
 build:
-	go get -d -v
+	go get -v
 	CGO_ENABLED=0 go build -a -ldflags '-extldflags "-static"' -o dnsupd
 
 format:
