@@ -29,31 +29,8 @@ jobs:
 
     steps:
       - checkout
-      - run: uname -a
-      - run: go version
-      - run: go env
-      - run: go vet -v ./...
-      - run:
-          name: staticcheck.io
-          command: |
-                    go install honnef.co/go/tools/cmd/staticcheck@latest
-                    staticcheck -checks all ./...
-      - run:
-          name: gosec
-          command: |
-                    go install github.com/securego/gosec/v2/cmd/gosec@latest
-                    gosec -exclude=G304,G114 ./...
-      - run:
-          name: govulncheck
-          command: |
-                    go install golang.org/x/vuln/cmd/govulncheck@latest
-                    govulncheck ./...
-      - run:
-          name: Check gofumpt formatting
-          command: |
-                    go install mvdan.cc/gofumpt@latest
-                    gofumpt -d .
-                    [ -z "$(gofumpt -l .)" ]
+      - run: make lint
+
   publish:
     docker:
       - image: cimg/go:1.24
@@ -61,9 +38,4 @@ jobs:
     steps:
       - checkout
       - setup_remote_docker
-      - run:
-          name: Build and publish docker image
-          command: |
-                    docker build --build-arg GIT_COMMIT=$CIRCLE_SHA1 -t docker.x-way.org/xway/dnsupd:latest .
-                    echo $DOCKER_ACCESS_TOKEN | docker login -u $DOCKER_USERNAME --password-stdin docker.x-way.org
-                    docker push docker.x-way.org/xway/dnsupd:latest
+      - run: make publish-docker
