@@ -1,4 +1,4 @@
-.PHONY: build build-docker publish-docker clean format lint vet staticcheck gosec govulncheck gofumpt
+.PHONY: build build-docker publish-docker clean format lint vet staticcheck gosec govulncheck gofumpt test
 
 
 lint: vet staticcheck gosec govulncheck gofumpt
@@ -34,4 +34,8 @@ publish-docker: build-docker
 	docker push docker.x-way.org/xway/dnsupd:latest
 
 clean:
-	rm -f dnsupd
+	rm -f dnsupd coverage.out coverage.html
+
+test:
+	go test -coverprofile=coverage.out -v ./...
+	go tool cover -html=coverage.out -o coverage.html
