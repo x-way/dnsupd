@@ -1,5 +1,4 @@
 # dnsupd - DynDNS update daemon
-[![CircleCI](https://circleci.com/gh/x-way/dnsupd.svg?style=svg)](https://circleci.com/gh/x-way/dnsupd)
 [![Go Report Card](https://goreportcard.com/badge/github.com/x-way/dnsupd)](https://goreportcard.com/report/github.com/x-way/dnsupd)
 
 dnsupd - a small and simple DynDNS server
@@ -14,7 +13,7 @@ Either install the go package
 ```
 Or alternatively install the docker image
 ```
-# docker pull docker.x-way.org/xway/dnsupd:latest
+# docker pull ghcr.io/x-way/dnsupd:latest
 ```
 
 ## Usage
@@ -24,7 +23,7 @@ Run the go binary from your local path
 ```
 Or run the docker image while passing the config file as volume
 ```
-# docker run -v $(pwd)/dnsupd.json:/etc/dnsupd.json docker.x-way.org/xway/dnsupd:latest
+# docker run -v $(pwd)/dnsupd.json:/etc/dnsupd.json ghcr.io/x-way/dnsupd:latest
 ```
 
 ## Configuration
