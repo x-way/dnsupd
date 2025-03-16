@@ -1,0 +1,26 @@
+name: Package lifecycle
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '14 0 * * 4'  # once per week
+
+jobs:
+  delete_packages:
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
+    strategy:
+      matrix:
+        package: [dnsupd]
+
+    steps:
+      -
+        name: Delete packages
+        uses: actions/delete-package-versions@v5
+        with:
+          package-name: ${{ matrix.package }}
+          package-type: 'container'
+          min-versions-to-keep: 5
+          delete-only-untagged-versions: 'true'
