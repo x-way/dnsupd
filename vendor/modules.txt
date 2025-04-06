@@ -14,7 +14,7 @@ github.com/google/uuid
 # github.com/kardianos/osext v0.0.0-20190222173326-2bc1f35cddc0
 ## explicit
 github.com/kardianos/osext
-# github.com/miekg/dns v1.1.64
+# github.com/miekg/dns v1.1.65
 ## explicit; go 1.22.0
 github.com/miekg/dns
 # github.com/pkg/errors v0.9.1
