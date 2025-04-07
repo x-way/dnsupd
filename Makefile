@@ -1,41 +1,35 @@
-.PHONY: build build-docker publish-docker clean format lint vet staticcheck gosec govulncheck gofumpt test
+.PHONY: build test lint format coverage clean all
 
+SRCDIR=.
+BINNAME=dnsupd
 
-lint: vet staticcheck gosec govulncheck gofumpt
-
-vet:
-	go vet -v ./...
-staticcheck:
-	go install honnef.co/go/tools/cmd/staticcheck@latest
-	staticcheck -checks all ./...
-gosec:
-	go install github.com/securego/gosec/v2/cmd/gosec@latest
-	gosec -exclude=G304,G114 ./...
-govulncheck:
-	go install golang.org/x/vuln/cmd/govulncheck@latest
-	govulncheck ./...
-gofumpt:
-	go install mvdan.cc/gofumpt@latest
-	test -z "$$(gofumpt -d -e . | tee /dev/stderr)"
+all: format lint test build
 
 build:
-	go get -v
-	CGO_ENABLED=0 go build -a -ldflags '-extldflags "-static"' -o dnsupd
+	go build -o $(BINNAME) $(SRCDIR)
+	GOOS=linux GOARCH=arm64 CGO_ENABLED=0 go build -o $(BINNAME).aarch64 $(SRCDIR)
+	GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o $(BINNAME).amd64 $(SRCDIR)
+
+test:
+	go test -v ./...
+
+lint:
+	go vet -v ./...
+	go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
+	golangci-lint run
+	go install honnef.co/go/tools/cmd/staticcheck@latest
+	staticcheck -checks all ./...
+	go install golang.org/x/vuln/cmd/govulncheck@latest
+	govulncheck ./...
 
 format:
+	go fmt ./...
 	go install mvdan.cc/gofumpt@latest
 	gofumpt -w .
 
-build-docker:
-	docker build --build-arg GIT_COMMIT=$$CIRCLE_SHA1 -t docker.x-way.org/xway/dnsupd:latest .
-
-publish-docker: build-docker
-	echo $$DOCKER_ACCESS_TOKEN | docker login -u $$DOCKER_USERNAME --password-stdin docker.x-way.org
-	docker push docker.x-way.org/xway/dnsupd:latest
+coverage:
+	go test -coverprofile=coverage.out ./...
+	go tool cover -html=coverage.out -o coverage.html
 
 clean:
-	rm -f dnsupd coverage.out coverage.html
-
-test:
-	go test -coverprofile=coverage.out -v ./...
-	go tool cover -html=coverage.out -o coverage.html
+	rm -f $(BINNAME) $(BINNAME).aarch64 $(BINNAME).amd64 coverage.out coverage.html
