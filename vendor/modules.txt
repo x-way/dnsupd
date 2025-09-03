@@ -1,4 +1,4 @@
-# github.com/bugsnag/bugsnag-go/v2 v2.6.1
+# github.com/bugsnag/bugsnag-go/v2 v2.6.2
 ## explicit; go 1.15
 github.com/bugsnag/bugsnag-go/v2
 github.com/bugsnag/bugsnag-go/v2/device
