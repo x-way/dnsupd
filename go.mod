@@ -1,6 +1,6 @@
 module github.com/x-way/dnsupd
 
-go 1.24.2
+go 1.24.6
 
 require (
 	github.com/bugsnag/bugsnag-go/v2 v2.6.2
