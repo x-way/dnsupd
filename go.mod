@@ -4,7 +4,7 @@ go 1.25.0
 
 require (
 	github.com/bugsnag/bugsnag-go/v2 v2.6.4
-	github.com/miekg/dns v1.1.72
+	github.com/miekg/dns v1.1.73
 	golang.org/x/crypto/x509roots/fallback v0.0.0-20260817153406-593c81af8aa6
 )
 
@@ -13,9 +13,6 @@ require (
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/kardianos/osext v0.0.0-20190222173326-2bc1f35cddc0 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
-	golang.org/x/mod v0.40.0 // indirect
 	golang.org/x/net v0.58.0 // indirect
-	golang.org/x/sync v0.22.0 // indirect
 	golang.org/x/sys v0.47.0 // indirect
-	golang.org/x/tools v0.49.0 // indirect
 )
