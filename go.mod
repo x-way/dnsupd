@@ -1,11 +1,11 @@
 module github.com/x-way/dnsupd
 
-go 1.25.0
+go 1.26.0
 
 require (
 	github.com/bugsnag/bugsnag-go/v2 v2.6.4
 	github.com/miekg/dns v1.1.73
-	golang.org/x/crypto/x509roots/fallback v0.0.0-20260817153406-593c81af8aa6
+	golang.org/x/crypto/x509roots/fallback v0.0.0-20260819204246-82adefa711cb
 )
 
 require (
