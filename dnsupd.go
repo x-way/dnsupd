@@ -86,27 +86,27 @@ func getParameters(r *http.Request) (hostname, myipstr, rrtype string, ok bool) 
 func handler(w http.ResponseWriter, r *http.Request) {
 	hostname, myip, rrtype, ok := getParameters(r)
 	if !ok {
-		fmt.Fprint(w, "911\n")
+		_, _ = fmt.Fprint(w, "911\n")
 		return
 	}
 	if !validHostname(hostname) {
-		fmt.Fprint(w, "nohost\n")
+		_, _ = fmt.Fprint(w, "nohost\n")
 		return
 	}
 
 	user, password, ok := r.BasicAuth()
 	if !ok || !validAuth(hostname, user, password) {
-		fmt.Fprint(w, "badauth\n")
+		_, _ = fmt.Fprint(w, "badauth\n")
 		return
 	}
 
 	if err := sendDNSUpdate(hostname, rrtype, myip); err != nil {
-		fmt.Fprint(w, "dnserr\n")
+		_, _ = fmt.Fprint(w, "dnserr\n")
 		_ = bugsnag.Notify(err, r, bugsnag.MetaData{"dnserr": {"hostname": hostname, "myip": myip, "rrtype": rrtype, "user": user}})
 		return
 	}
 
-	fmt.Fprintf(w, "good %s\n", myip)
+	_, _ = fmt.Fprintf(w, "good %s\n", myip)
 }
 
 func sendDNSUpdate(hostname, rrtype, ip string) error {
