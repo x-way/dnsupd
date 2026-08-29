@@ -106,7 +106,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	_, _ = fmt.Fprintf(w, "good %s\n", myip)
+	_, _ = fmt.Fprintf(w, "good %s\n", myip) // #nosec G705 -- myip already validated by net.ParseIP in getParameters, cannot contain HTML/script characters
 }
 
 func sendDNSUpdate(hostname, rrtype, ip string) error {
@@ -138,7 +138,7 @@ func sendDNSUpdate(hostname, rrtype, ip string) error {
 }
 
 func loadConfig(configfile string) {
-	data, err := os.ReadFile(configfile)
+	data, err := os.ReadFile(configfile) // #nosec G304 -- path supplied via -f CLI flag, not attacker-controlled
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -189,5 +189,10 @@ func main() {
 		port = fmt.Sprintf(":%d", config.Port)
 	}
 	http.HandleFunc("/", handler)
-	log.Fatal(http.ListenAndServe(port, bugsnag.Handler(nil)))
+	server := &http.Server{
+		Addr:              port,
+		Handler:           bugsnag.Handler(nil),
+		ReadHeaderTimeout: 5 * time.Second,
+	}
+	log.Fatal(server.ListenAndServe())
 }
