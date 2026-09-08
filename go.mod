@@ -5,7 +5,7 @@ go 1.27.0
 require (
 	github.com/bugsnag/bugsnag-go/v2 v2.6.4
 	github.com/miekg/dns v1.1.73
-	golang.org/x/crypto/x509roots/fallback v0.0.0-20260902180247-86efde54dc70
+	golang.org/x/crypto/x509roots/fallback v0.0.0-20260908180501-3f62bf119e84
 )
 
 require (
