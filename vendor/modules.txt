@@ -24,8 +24,8 @@ github.com/pkg/errors
 ## explicit; go 1.26.0
 golang.org/x/crypto/x509roots/fallback
 golang.org/x/crypto/x509roots/fallback/bundle
-# golang.org/x/net v0.58.0
-## explicit; go 1.25.0
+# golang.org/x/net v0.59.0
+## explicit; go 1.26.0
 golang.org/x/net/bpf
 golang.org/x/net/internal/iana
 golang.org/x/net/internal/socket
