@@ -1,5 +1,4 @@
 # dnsupd - DynDNS update daemon
-[![Go Report Card](https://goreportcard.com/badge/github.com/x-way/dnsupd)](https://goreportcard.com/report/github.com/x-way/dnsupd)
 
 dnsupd - a small and simple DynDNS server
 
