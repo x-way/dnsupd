@@ -20,7 +20,7 @@ github.com/miekg/dns
 # github.com/pkg/errors v0.9.1
 ## explicit
 github.com/pkg/errors
-# golang.org/x/crypto/x509roots/fallback v0.0.0-20261111072342-6c966a7517bf
+# golang.org/x/crypto/x509roots/fallback v0.0.0-20261111203624-6bec4215b57b
 ## explicit; go 1.26.0
 golang.org/x/crypto/x509roots/fallback
 golang.org/x/crypto/x509roots/fallback/bundle
